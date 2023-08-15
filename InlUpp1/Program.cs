@@ -6,11 +6,14 @@
 // Search functionality based on Title and Category - should return list
 
 
+using InlUpp1.Helpers;
 using InlUpp1.Models;
 
 bool applicationRunning = true;
 
-while(applicationRunning)
+List<Advertisment> advertisements = new List<Advertisment>();
+
+while (applicationRunning)
 {
     Console.WriteLine("Welcome to Blocket 2.0");
     Console.WriteLine("Available Options:");
@@ -26,68 +29,48 @@ while(applicationRunning)
     switch (userEntryValue)
     {
         case ConsoleKey.D1:
-            // PROCESS OF CREATING A ADVERTISMENT
-            // advertisment is a object that has its properties so we create a class
 
             bool createAdvertismentInProgress = true;
 
-            List<Advertisment> advertisements = new List<Advertisment>();
-
-            Advertisment newAdvertisment = new Advertisment();
-
-            bool titleIsSet = false;
-            bool descriptionIsSet = false;
-            bool priceIsSet = false;
-
-
-            if (!string.IsNullOrEmpty(newAdvertisment.Title))
-            {
-                Console.WriteLine($"\n Advertisement Title: {newAdvertisment.Title}");
-            }
-
             while (createAdvertismentInProgress)
             {
-                if (!string.IsNullOrEmpty(newAdvertisment.Title))
-                {
-                    Console.WriteLine($"\n Advertisement Title: {newAdvertisment.Title}");
-                } else
-                {
-                    Console.WriteLine(" \n What is the title for your advertisment");
-                    newAdvertisment.Title = Console.ReadLine();
-                    titleIsSet = true;
-                }
+                string title = InputHandler.GetUserAnswer("\n What is the title for your advertisement", "Advertisement Title can not be empty");
+                string description = InputHandler.GetUserAnswer("\n What is the description for your advertisement", "Advertisement Description can not be empty");
+                string price = InputHandler.GetUserAnswer("\n What is the price for your advertisement", "Advertisement Price can not be empty");
 
-                if (!string.IsNullOrEmpty(newAdvertisment.Description) && titleIsSet)
+                Advertisment newAdvertisement = new Advertisment
                 {
-                    Console.WriteLine($"\nAdvertisement Description: {newAdvertisment.Description}");
+                    Title = title,
+                    Description = description,
+                    Price = price
+                };
+
+                DisplayAdvertisement(newAdvertisement);
+
+                if (InputHandler.GetUserChoice())
+                {
+                    Console.WriteLine("\n Save to database");
+                    advertisements.Add(newAdvertisement);
+                    createAdvertismentInProgress = false;
                 }
                 else
                 {
-                    Console.WriteLine(" \n What is the description for your advertisment");
-                    newAdvertisment.Description = Console.ReadLine();
-                    descriptionIsSet = true;
+                    Console.WriteLine("\n Start over");
                 }
-
-                if (!string.IsNullOrEmpty(newAdvertisment.Price) && priceIsSet && descriptionIsSet)
-                {
-                    Console.WriteLine($"\n Advertisement Price: {newAdvertisment.Price}");
-                }
-                else
-                {
-                    Console.WriteLine(" \n What is the price for your advertisment");
-                    newAdvertisment.Price = Console.ReadLine();
-                    priceIsSet = true;
-                }
-
-
-                //createAdvertismentInProgress = false;
             }
-            
+
+
             break;
         default:
             Console.WriteLine(" \n Not a valid option");
             break;
     }
 }
-
+static void DisplayAdvertisement(Advertisment advertisement)
+{
+    Console.WriteLine("\n This is your advertisement");
+    Console.WriteLine($"\n Title: {advertisement.Title}");
+    Console.WriteLine($"\n Description: {advertisement.Description}");
+    Console.WriteLine($"\n Price : {advertisement.Price}");
+}
 
