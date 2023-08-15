@@ -1,0 +1,15 @@
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\bin\Debug\net6.0\InlUpp1.exe
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\bin\Debug\net6.0\InlUpp1.deps.json
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\bin\Debug\net6.0\InlUpp1.runtimeconfig.json
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\bin\Debug\net6.0\InlUpp1.dll
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\bin\Debug\net6.0\InlUpp1.pdb
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\obj\Debug\net6.0\InlUpp1.csproj.AssemblyReference.cache
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\obj\Debug\net6.0\InlUpp1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\obj\Debug\net6.0\InlUpp1.AssemblyInfoInputs.cache
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\obj\Debug\net6.0\InlUpp1.AssemblyInfo.cs
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\obj\Debug\net6.0\InlUpp1.csproj.CoreCompileInputs.cache
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\obj\Debug\net6.0\InlUpp1.dll
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\obj\Debug\net6.0\refint\InlUpp1.dll
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\obj\Debug\net6.0\InlUpp1.pdb
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\obj\Debug\net6.0\InlUpp1.genruntimeconfig.cache
+C:\Nemanja\Private\Projekti\Tutor Sessions\Liam\InlUppgift1\NemanjaTry\InlUpp1ConsoleApp\InlUpp1\obj\Debug\net6.0\ref\InlUpp1.dll
