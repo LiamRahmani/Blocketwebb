@@ -232,6 +232,7 @@ namespace InlUpp1.Helpers
             List<Advertisment> allAdvertisments = _database.Advertisments.ToList();
 
             bool searchAdvertismentInProgress = true;
+            
 
             while (searchAdvertismentInProgress)
             {
@@ -239,8 +240,8 @@ namespace InlUpp1.Helpers
                 Console.CursorVisible = false;
                 Console.WriteLine("Enter the title search keyword");
                 string userKeyword = Console.ReadLine()!;
+
                 List<Advertisment> searchedAdvertisments = allAdvertisments.Where(advertisment => advertisment.Title.Contains(userKeyword, StringComparison.OrdinalIgnoreCase)).ToList();
-                int advertismentIndex = 0;
 
                 if (!searchedAdvertisments.Any())
                 {
@@ -252,33 +253,44 @@ namespace InlUpp1.Helpers
                 }
                 else
                 {
-                    for (int i = 0; i < allAdvertisments.Count(); i++)
+                    bool choosingAdvertisment = true;
+                    int advertismentIndex = 0;
+                    while (choosingAdvertisment)
                     {
-                        Console.WriteLine((i == advertismentIndex ? "* " : "") + allAdvertisments[i].Title + (i == advertismentIndex ? "<--" : ""));
-                    }
-                    var keyPressed = Console.ReadKey();
-
-                    if (keyPressed.Key == ConsoleKey.DownArrow && advertismentIndex != allAdvertisments.Count() - 1)
-                    {
-                        advertismentIndex++;
-                    }
-                    else if (keyPressed.Key == ConsoleKey.UpArrow && advertismentIndex >= 1)
-                    {
-                        advertismentIndex--;
-                    }
-                    else if (keyPressed.Key == ConsoleKey.Enter)
-                    {
-                        Advertisment advertismentSelected = allAdvertisments[advertismentIndex];
-
-                        string categoryName = _categoryManager.GetCategoryByID(advertismentSelected.CategoryId).Name;
-
                         Console.Clear();
-                        DisplayAdvertisment(advertismentSelected, categoryName);
-                        Console.WriteLine("\n Press any button to go back to main menu");
+                        Console.WriteLine("\n*~* Use arrows and enter key to navigate ! *~* \n ");
 
-                        Console.ReadLine();
-                        searchAdvertismentInProgress = false;
+                        for (int i = 0; i < searchedAdvertisments.Count(); i++)
+                        {
+                            Console.WriteLine((i == advertismentIndex ? "* " : "") + searchedAdvertisments[i].Title + (i == advertismentIndex ? "<--" : ""));
+                        }
+
+                        var keyPressed = Console.ReadKey();
+
+                        if (keyPressed.Key == ConsoleKey.DownArrow && advertismentIndex != searchedAdvertisments.Count() - 1)
+                        {
+                            advertismentIndex++;
+                        }
+                        else if (keyPressed.Key == ConsoleKey.UpArrow && advertismentIndex >= 1)
+                        {
+                            advertismentIndex--;
+                        }
+                        else if (keyPressed.Key == ConsoleKey.Enter)
+                        {
+                            Advertisment advertismentSelected = searchedAdvertisments[advertismentIndex];
+
+                            string categoryName = _categoryManager.GetCategoryByID(advertismentSelected.CategoryId).Name;
+
+                            Console.Clear();
+                            DisplayAdvertisment(advertismentSelected, categoryName);
+                            Console.WriteLine("\n Press any button to go back to main menu");
+
+                            Console.ReadLine();
+                            searchAdvertismentInProgress = false;
+                            choosingAdvertisment = false;
+                        }
                     }
+                    
                 }
             }
         }
@@ -297,7 +309,7 @@ namespace InlUpp1.Helpers
                 Console.CursorVisible = false;
                 Category categoryChosen = _categoryManager.ChooseCategory();
                 Console.Clear();
-                List<Category> categoriesSearched = allCategories.Where(category => category.Name.Contains(categoryChosen.Name, StringComparison.OrdinalIgnoreCase)).ToList();
+                List<Category> categoriesSearched = allCategories.Where(category => category.Name == categoryChosen.Name).ToList();
                 List<int> categoryIds = categoriesSearched.Select(category => category.Id).ToList();
 
                 List<Advertisment> advertismentSearched = allAdvertisments.Where(advertisement => categoryIds.Contains(advertisement.CategoryId)).ToList();
