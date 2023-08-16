@@ -29,12 +29,16 @@ namespace InlUpp1.Helpers
 
         public static bool GetUserChoice()
         {
+
             Console.WriteLine("\n Do you want to save this advertisement ?");
+            Console.WriteLine("\n");
+            Console.WriteLine("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
             Console.WriteLine("\n (Y) - Yes");
             Console.WriteLine("\n (N) - No, start over");
+            Console.WriteLine("\n *~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
 
             ConsoleKey saveOrStartOver = Console.ReadKey().Key;
-            Console.WriteLine(); // Add a new line after user input
+            Console.WriteLine();
 
             return saveOrStartOver == ConsoleKey.Y;
         }
