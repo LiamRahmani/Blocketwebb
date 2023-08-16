@@ -1,12 +1,4 @@
-﻿// SAVING ANNONS APP
-// ANNONS STRUCTURE - TITLE, DESCRIPTION, PRICE, CATEGORY
-// YOU SHOULD BE ABLE TO CHOOSE CATEGORY
-// CATEGORIES - Furniture, Mobil, Bicycle, Computers etc
-// Create Read Update Delete Actions with DATABASE
-// Search functionality based on Title and Category - should return list
-
-
-using ConsoleBlocket.DataContext;
+﻿using ConsoleBlocket.DataContext;
 using InlUpp1.Helpers;
 using InlUpp1.Models;
 using System;
@@ -16,7 +8,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        using (var context = new AppDatabase())
+        using (var database = new AppDatabase())
         {
             bool applicationRunning = true;
 
@@ -34,13 +26,18 @@ class Program
                 {
                     case ConsoleKey.D1:
 
-                        CreateAdvertisment(context);
+                        CreateAdvertisment(database);
 
                         break;
 
                     case ConsoleKey.D2:
                         Console.Clear();
-                        ShowAllAdvertisments(context);
+                        ShowAllAdvertisments(database);
+                        break;
+
+                    case ConsoleKey.D3:
+                        Console.Clear();
+                        EditAdvertisment(database);
                         break;
 
                     default:
@@ -84,6 +81,67 @@ class Program
             }
         }
        
+    }
+
+    private static void DisplayAdvertisementOptions()
+    {
+        Console.WriteLine("Welcome to Blocket 2.0");
+        Console.WriteLine("\n *~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+        Console.WriteLine("Available Options:");
+        Console.WriteLine("(1) - Add new Advertisment");
+        Console.WriteLine("(2) - Show all Advertisment");
+        Console.WriteLine("(3) - Edit existing Advertisment");
+        Console.WriteLine("(4) - Delete Advertisment");
+        Console.WriteLine("(5) - Search Advertisment according to Title");
+        Console.WriteLine("(6) - Search Advertisment according to Category");
+        Console.WriteLine("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+        Console.WriteLine("\n Enter the command number: ");
+        Console.WriteLine();
+    }
+
+    private static void CreateAdvertisment(AppDatabase database)
+    {
+        Console.Clear();
+        bool createAdvertisementInProgress = true;
+
+        while (createAdvertisementInProgress)
+        {
+            string title = InputHandler.GetUserAnswer("\n What is the title for your advertisement", "Advertisement Title cannot be empty");
+            Console.Clear();
+            string description = InputHandler.GetUserAnswer("\n What is the description for your advertisement", "Advertisement Description cannot be empty");
+            Console.Clear();
+            string price = InputHandler.GetUserAnswer("\n What is the price for your advertisement", "Advertisement Price cannot be empty");
+            Console.Clear();
+            Category category = DisplayAndChooseCategory(database);
+            Console.Clear();
+
+
+
+            Advertisment newAdvertisement = new Advertisment
+            {
+                Title = title,
+                Description = description,
+                Price = price,
+                CategoryId = category.Id
+            };
+
+            DisplayCreatedAdvertisement(newAdvertisement, category.Name);
+
+            if (InputHandler.GetUserChoice())
+            {
+                Console.WriteLine("\n Saved to database");
+
+                database.Advertisments.Add(newAdvertisement);
+                database.SaveChanges();
+
+                createAdvertisementInProgress = false;
+            }
+            else
+            {
+                Console.WriteLine("\n Start over");
+                Console.Clear();
+            }
+        }
     }
 
     private static void DisplayCreatedAdvertisement(Advertisment advertisement, string categoryName)
@@ -135,66 +193,76 @@ class Program
 
     }
 
-    private static void DisplayAdvertisementOptions()
+    private static void EditAdvertisment(AppDatabase database)
     {
-        Console.WriteLine("Welcome to Blocket 2.0");
-        Console.WriteLine("\n *~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
-        Console.WriteLine("Available Options:");
-        Console.WriteLine("(1) - Add new Advertisment");
-        Console.WriteLine("(2) - Show all Advertisment");
-        Console.WriteLine("(3) - Edit existing Advertisment");
-        Console.WriteLine("(4) - Delete Advertisment");
-        Console.WriteLine("(5) - Search Advertisment according to Title");
-        Console.WriteLine("(6) - Search Advertisment according to Category");
-        Console.WriteLine("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+        List<Advertisment> allAdvertisments = database.Advertisments.ToList();
+        int advertismentIndex = 0;
 
-        Console.WriteLine("\n Enter the command number: ");
-        Console.WriteLine();
-    }
+        //Advertisment advertismentToEdit = new Advertisment();
 
-    private static void CreateAdvertisment(AppDatabase database)
-    {
-        Console.Clear();
-        bool createAdvertisementInProgress = true;
-
-        while (createAdvertisementInProgress)
+        bool editingAdvertismentInProgress = true;
+        while (editingAdvertismentInProgress)
         {
-            string title = InputHandler.GetUserAnswer("\n What is the title for your advertisement", "Advertisement Title cannot be empty");
             Console.Clear();
-            string description = InputHandler.GetUserAnswer("\n What is the description for your advertisement", "Advertisement Description cannot be empty");
-            Console.Clear();
-            string price = InputHandler.GetUserAnswer("\n What is the price for your advertisement", "Advertisement Price cannot be empty");
-            Console.Clear();
-            Category category = DisplayAndChooseCategory(database);
-            Console.Clear();
-
-
-
-            Advertisment newAdvertisement = new Advertisment
+            Console.CursorVisible = false;
+            Console.WriteLine("Please choose the advertisment you want to edit:");
+            for (int i = 0; i < allAdvertisments.Count(); i++)
             {
-                Title = title,
-                Description = description,
-                Price = price,
-                CategoryId = category.Id
-            };
-
-            DisplayCreatedAdvertisement(newAdvertisement, category.Name);
-
-            if (InputHandler.GetUserChoice())
-            {
-                Console.WriteLine("\n Saved to database");
-
-                database.Advertisments.Add(newAdvertisement);
-                database.SaveChanges();
-
-                createAdvertisementInProgress = false;
+                Console.WriteLine((i == advertismentIndex ? "* " : "") + allAdvertisments[i].Title + (i == advertismentIndex ? "<--" : ""));
             }
-            else
+            var keyPressed = Console.ReadKey();
+
+            if (keyPressed.Key == ConsoleKey.DownArrow && advertismentIndex != allAdvertisments.Count() - 1)
             {
-                Console.WriteLine("\n Start over");
+                advertismentIndex++;
+            }
+            else if (keyPressed.Key == ConsoleKey.UpArrow && advertismentIndex >= 1)
+            {
+                advertismentIndex--;
+            }
+            else if (keyPressed.Key == ConsoleKey.Enter)
+            {
+                Advertisment advertismentToEdit = allAdvertisments[advertismentIndex];
+                Console.WriteLine($"You have choosen {advertismentToEdit.Title} to edit");
+
                 Console.Clear();
+
+                string title = InputHandler.GetUserAnswer("\n What is the updated title for your advertisement", "Advertisement Title cannot be empty");
+                Console.Clear();
+                string description = InputHandler.GetUserAnswer("\n What is the updated description for your advertisement", "Advertisement Description cannot be empty");
+                Console.Clear();
+                string price = InputHandler.GetUserAnswer("\n What is the updated price for your advertisement", "Advertisement Price cannot be empty");
+                Console.Clear();
+                Category category = DisplayAndChooseCategory(database);
+                Console.Clear();
+
+
+
+                advertismentToEdit.Title = title;
+                advertismentToEdit.Description = description;
+                advertismentToEdit.Price = price;
+                advertismentToEdit.CategoryId = category.Id;
+
+
+                DisplayCreatedAdvertisement(advertismentToEdit, category.Name);
+
+                if (InputHandler.GetUserChoice())
+                {
+                    Console.WriteLine("\n Saved to database");
+
+                    database.SaveChanges();
+
+                    editingAdvertismentInProgress = false;
+                }
+                else
+                {
+                    Console.WriteLine("\n Start over");
+                    Console.Clear();
+                }
+                
             }
         }
+
     }
 }
 
