@@ -25,6 +25,7 @@ class Program
             while (applicationRunning)
             {
                 Console.Clear();
+                Console.CursorVisible = false;
                 DisplayAdvertisementOptions();
 
                 ConsoleKey usersOptionChoice = Console.ReadKey().Key;
@@ -38,7 +39,7 @@ class Program
                         break;
 
                     case ConsoleKey.D2:
-
+                        Console.Clear();
                         ShowAllAdvertisments(context);
                         break;
 
@@ -50,25 +51,28 @@ class Program
         }
     }
 
-    private static void ShowAllAdvertisments(AppDatabase context)
+    private static void ShowAllAdvertisments(AppDatabase database)
     {
-        List<Advertisment> allAdvertisments = context.Advertisments.ToList();
+        List<Advertisment> allAdvertisments = database.Advertisments.ToList();
+        List<Category> allCategories = database.Categories.ToList();
 
         bool showingAllAdvertismentsProgress = true;
         while(showingAllAdvertismentsProgress)
         {
+            Console.Clear();
             Console.WriteLine("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
             Console.WriteLine("ALL ADVERTISMENTS");
             Console.WriteLine("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
             foreach (Advertisment advertisment in allAdvertisments)
             {
+                Category advertismentCategory = allCategories.Where(category => category.Id == advertisment.CategoryId).First();
+                string categoryName = advertismentCategory.Name;
                 Console.WriteLine("\n*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
                 Console.WriteLine("Advertisment Title: {0}", advertisment.Title);
                 Console.WriteLine("Description: {0}", advertisment.Description);
                 Console.WriteLine("Price: {0}", advertisment.Price);
+                Console.WriteLine("Category: {0}", categoryName);
                 Console.WriteLine("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
-               
-                
             }
             Console.WriteLine("\n Press any button to go back to main menu");
             ConsoleKey anyKey = Console.ReadKey().Key;
@@ -82,14 +86,53 @@ class Program
        
     }
 
-    private static void DisplayCreatedAdvertisement(Advertisment advertisement)
+    private static void DisplayCreatedAdvertisement(Advertisment advertisement, string categoryName)
     {
         Console.WriteLine("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
         Console.WriteLine("\n This is your advertisement");
         Console.WriteLine($"\n Title: {advertisement.Title}");
         Console.WriteLine($"\n Description: {advertisement.Description}");
         Console.WriteLine($"\n Price : {advertisement.Price}");
+        Console.WriteLine($"\n Category : {categoryName}");
         Console.WriteLine("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+    }
+
+    private static Category DisplayAndChooseCategory(AppDatabase database)
+    {
+        List<Category> allCategories = database.Categories.ToList();
+        int categoryListIndex = 0;
+
+        Category selectedCategory = new Category();
+
+        bool showingCategoriesProgress = true;
+        while (showingCategoriesProgress)
+        {
+            Console.Clear();
+            Console.CursorVisible = false;
+            Console.WriteLine("Hello and welcome! Please choose category for your advertisment:");
+            for (int i = 0; i < allCategories.Count(); i++)
+            {
+                Console.WriteLine((i == categoryListIndex ? "* " : "") + allCategories[i].Name + (i == categoryListIndex ? "<--" : ""));
+            }
+            var keyPressed = Console.ReadKey();
+
+            if (keyPressed.Key == ConsoleKey.DownArrow && categoryListIndex != allCategories.Count() - 1)
+            {
+                categoryListIndex++;
+            }
+            else if (keyPressed.Key == ConsoleKey.UpArrow && categoryListIndex >= 1)
+            {
+                categoryListIndex--;
+            }
+            else if (keyPressed.Key == ConsoleKey.Enter)
+            {
+                selectedCategory.Name = allCategories[categoryListIndex].Name;
+                selectedCategory.Id = allCategories[categoryListIndex].Id;
+                showingCategoriesProgress = false;
+            }
+        }
+        return selectedCategory;
+
     }
 
     private static void DisplayAdvertisementOptions()
@@ -109,7 +152,7 @@ class Program
         Console.WriteLine();
     }
 
-    private static void CreateAdvertisment(AppDatabase context)
+    private static void CreateAdvertisment(AppDatabase database)
     {
         Console.Clear();
         bool createAdvertisementInProgress = true;
@@ -122,22 +165,27 @@ class Program
             Console.Clear();
             string price = InputHandler.GetUserAnswer("\n What is the price for your advertisement", "Advertisement Price cannot be empty");
             Console.Clear();
+            Category category = DisplayAndChooseCategory(database);
+            Console.Clear();
+
+
 
             Advertisment newAdvertisement = new Advertisment
             {
                 Title = title,
                 Description = description,
-                Price = price
+                Price = price,
+                CategoryId = category.Id
             };
 
-            DisplayCreatedAdvertisement(newAdvertisement);
+            DisplayCreatedAdvertisement(newAdvertisement, category.Name);
 
             if (InputHandler.GetUserChoice())
             {
                 Console.WriteLine("\n Saved to database");
 
-                context.Advertisments.Add(newAdvertisement);
-                context.SaveChanges();
+                database.Advertisments.Add(newAdvertisement);
+                database.SaveChanges();
 
                 createAdvertisementInProgress = false;
             }
