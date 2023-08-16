@@ -43,6 +43,22 @@ namespace InlUpp1.Helpers
             return saveOrStartOver == ConsoleKey.Y;
         }
 
+        public static bool GetUserChoiceDelete()
+        {
+
+            Console.WriteLine("\n Do you want to delete this advertisement ?");
+            Console.WriteLine("\n");
+            Console.WriteLine("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+            Console.WriteLine("\n (Y) - Yes");
+            Console.WriteLine("\n (N) - No");
+            Console.WriteLine("\n *~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+
+            ConsoleKey saveOrStartOver = Console.ReadKey().Key;
+            Console.WriteLine();
+
+            return saveOrStartOver == ConsoleKey.Y;
+        }
+
 
     }
 }

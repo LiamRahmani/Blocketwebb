@@ -40,6 +40,16 @@ class Program
                         EditAdvertisment(database);
                         break;
 
+                    case ConsoleKey.D4:
+                        Console.Clear();
+                        DeleteAdvertisment(database);
+                        break;
+
+                    case ConsoleKey.D5:
+                        Console.Clear();
+                        SearchAdvertismentsAccordingToTitle(database);
+                        break;
+
                     default:
                         Console.WriteLine(" \n Not a valid option");
                         break;
@@ -47,6 +57,8 @@ class Program
             }
         }
     }
+
+   
 
     private static void ShowAllAdvertisments(AppDatabase database)
     {
@@ -198,8 +210,6 @@ class Program
         List<Advertisment> allAdvertisments = database.Advertisments.ToList();
         int advertismentIndex = 0;
 
-        //Advertisment advertismentToEdit = new Advertisment();
-
         bool editingAdvertismentInProgress = true;
         while (editingAdvertismentInProgress)
         {
@@ -243,7 +253,6 @@ class Program
                 advertismentToEdit.Price = price;
                 advertismentToEdit.CategoryId = category.Id;
 
-
                 DisplayCreatedAdvertisement(advertismentToEdit, category.Name);
 
                 if (InputHandler.GetUserChoice())
@@ -260,6 +269,112 @@ class Program
                     Console.Clear();
                 }
                 
+            }
+        }
+
+    }
+
+    private static void DeleteAdvertisment(AppDatabase database)
+    {
+        List<Advertisment> allAdvertisments = database.Advertisments.ToList();
+        int advertismentIndex = 0;
+
+        bool deletingAdvertismentInProgress = true;
+        while (deletingAdvertismentInProgress)
+        {
+            Console.Clear();
+            Console.CursorVisible = false;
+            Console.WriteLine("Please choose the advertisment you want to delete:");
+            for (int i = 0; i < allAdvertisments.Count(); i++)
+            {
+                Console.WriteLine((i == advertismentIndex ? "* " : "") + allAdvertisments[i].Title + (i == advertismentIndex ? "<--" : ""));
+            }
+            var keyPressed = Console.ReadKey();
+
+            if (keyPressed.Key == ConsoleKey.DownArrow && advertismentIndex != allAdvertisments.Count() - 1)
+            {
+                advertismentIndex++;
+            }
+            else if (keyPressed.Key == ConsoleKey.UpArrow && advertismentIndex >= 1)
+            {
+                advertismentIndex--;
+            }
+            else if (keyPressed.Key == ConsoleKey.Enter)
+            {
+                Advertisment advertismentToDelete = allAdvertisments[advertismentIndex];
+                Console.WriteLine($"You have choosen {advertismentToDelete.Title} to delete");
+
+                Console.Clear();
+
+                if (InputHandler.GetUserChoiceDelete())
+                {
+                    
+                    database.Advertisments.Remove( advertismentToDelete );
+                    database.SaveChanges();
+
+                    Console.WriteLine("\n Deleted from database");
+
+                    deletingAdvertismentInProgress = false;
+                }
+                else
+                {
+                    Console.WriteLine("\n Start over");
+                    Console.Clear();
+                }
+
+            }
+        }
+    }
+
+    private static string ReturnNameOfCategoryBasedOnAdvertismentCategoryId (int categoryId, AppDatabase database)
+    {
+        List<Category> allCategories = database.Categories.ToList();
+        Category categoryInQuestion = allCategories.Where(category => category.Id == categoryId).First();
+        return categoryInQuestion.Name;
+    }
+
+    private static void SearchAdvertismentsAccordingToTitle(AppDatabase database)
+    {
+        List<Advertisment> allAdvertisments = database.Advertisments.ToList();
+
+        bool searchAdvertismentInProgress = true;
+
+        while (searchAdvertismentInProgress)
+        {
+            Console.Clear();
+            Console.CursorVisible = false;
+            Console.WriteLine("Enter the search keyword");
+            string userKeyword = Console.ReadLine()!;
+            List<Advertisment> searchedAdvertisments = allAdvertisments.Where(advertisment => advertisment.Title.Contains(userKeyword, StringComparison.OrdinalIgnoreCase)).ToList();
+            int advertismentIndex = 0;
+            for (int i = 0; i < allAdvertisments.Count(); i++)
+            {
+                Console.WriteLine((i == advertismentIndex ? "* " : "") + allAdvertisments[i].Title + (i == advertismentIndex ? "<--" : ""));
+            }
+            var keyPressed = Console.ReadKey();
+
+            if (keyPressed.Key == ConsoleKey.DownArrow && advertismentIndex != allAdvertisments.Count() - 1)
+            {
+                advertismentIndex++;
+            }
+            else if (keyPressed.Key == ConsoleKey.UpArrow && advertismentIndex >= 1)
+            {
+                advertismentIndex--;
+            }
+            else if (keyPressed.Key == ConsoleKey.Enter)
+            {
+                Advertisment advertismentSelected = allAdvertisments[advertismentIndex];
+
+                string categoryName = ReturnNameOfCategoryBasedOnAdvertismentCategoryId(advertismentSelected.CategoryId, database);
+
+                Console.Clear();
+                DisplayCreatedAdvertisement(advertismentSelected, categoryName);
+                Console.WriteLine("\n Press any button to go back to main menu");
+
+                Console.ReadLine();
+                searchAdvertismentInProgress = false;
+
+
             }
         }
 
