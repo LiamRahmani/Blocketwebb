@@ -44,6 +44,7 @@ namespace InlUpp1.Helpers
                 Console.Clear();
                 Console.CursorVisible = false;
                 Console.WriteLine("Please choose category for your advertisment:");
+                Console.WriteLine("\n*~* Use arrows and enter key to navigate ! *~* \n ");
 
                 DisplayCategories(allCategoriesFromDatabase, categoryListIndex);
 
@@ -70,7 +71,7 @@ namespace InlUpp1.Helpers
         {
             for (int i = 0; i < allCategoriesFromDatabase.Count(); i++)
             {
-                Console.WriteLine((i == categoryListIndex ? "* " : "") + allCategoriesFromDatabase[i].Name + (i == categoryListIndex ? "<--" : ""));
+                Console.WriteLine((i == categoryListIndex ? "* " : "") + allCategoriesFromDatabase[i].Name + (i == categoryListIndex ? " <--" : ""));
             }
         }
     }

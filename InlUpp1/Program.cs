@@ -12,7 +12,7 @@ class Program
     {
         using (var database = new AppDatabase())
         {
-            var app = new InlUpp1.Helpers.Application(new AdvertisementManager(database, new CategoryManager(database)));
+            var app = new InlUpp1.Application(new AdvertisementManager(database, new CategoryManager(database)));
             app.Run();
         }
     }
