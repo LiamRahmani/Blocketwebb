@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Nemanja\\Private\\Projekti\\Tutor Sessions\\Liam\\InlUppgift1\\NemanjaTry\\InlUpp1ConsoleApp\\InlUpp1\\InlUpp1.csproj": {}
+    "C:\\Users\\admin\\Source\\Repos\\TutorSession-Blocket-Liam\\InlUpp1\\InlUpp1.csproj": {}
   },
   "projects": {
-    "C:\\Nemanja\\Private\\Projekti\\Tutor Sessions\\Liam\\InlUppgift1\\NemanjaTry\\InlUpp1ConsoleApp\\InlUpp1\\InlUpp1.csproj": {
+    "C:\\Users\\admin\\Source\\Repos\\TutorSession-Blocket-Liam\\InlUpp1\\InlUpp1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Nemanja\\Private\\Projekti\\Tutor Sessions\\Liam\\InlUppgift1\\NemanjaTry\\InlUpp1ConsoleApp\\InlUpp1\\InlUpp1.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Source\\Repos\\TutorSession-Blocket-Liam\\InlUpp1\\InlUpp1.csproj",
         "projectName": "InlUpp1",
-        "projectPath": "C:\\Nemanja\\Private\\Projekti\\Tutor Sessions\\Liam\\InlUppgift1\\NemanjaTry\\InlUpp1ConsoleApp\\InlUpp1\\InlUpp1.csproj",
-        "packagesPath": "C:\\Users\\neman\\.nuget\\packages\\",
-        "outputPath": "C:\\Nemanja\\Private\\Projekti\\Tutor Sessions\\Liam\\InlUppgift1\\NemanjaTry\\InlUpp1ConsoleApp\\InlUpp1\\obj\\",
+        "projectPath": "C:\\Users\\admin\\Source\\Repos\\TutorSession-Blocket-Liam\\InlUpp1\\InlUpp1.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\Source\\Repos\\TutorSession-Blocket-Liam\\InlUpp1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\neman\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -82,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

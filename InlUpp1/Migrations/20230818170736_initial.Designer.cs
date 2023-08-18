@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InlUpp1.Migrations
 {
     [DbContext(typeof(AppDatabase))]
-    [Migration("20230815204830_addedCategoryTables")]
-    partial class addedCategoryTables
+    [Migration("20230818170736_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,38 @@ namespace InlUpp1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Furniture"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Mobile phone"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Computers"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Clothes"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Cars"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Shoes"
+                        });
                 });
 #pragma warning restore 612, 618
         }
